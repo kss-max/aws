@@ -1,20 +1,33 @@
-# Step 1: Use an official Node.js runtime as a parent image
-FROM node:20-alpine
+# ─── Stage 1: Build ───────────────────────────────────────────────────────────
+FROM node:20-alpine AS builder
 
-# Step 2: Set the working directory inside the container
 WORKDIR /app
 
-# Step 3: Copy package.json and package-lock.json first (for caching)
+# Copy dependency manifests first (better layer caching)
 COPY package*.json ./
-
-# Step 4: Install dependencies
 RUN npm install
 
-# Step 5: Copy the rest of the frontend source code
+# Copy the rest of the frontend source code
 COPY . .
 
-# Step 6: Expose the Vite development port
-EXPOSE 5173
+# Pass the backend URL at build time so Vite can bake it in
+ARG VITE_API_URL=/api
+ENV VITE_API_URL=$VITE_API_URL
 
-# Step 7: Define the command to start the Vite server
-CMD ["npm", "run", "dev", "--", "--host"]
+# Build the production React app into the /app/dist folder
+RUN npm run build
+
+# ─── Stage 2: Serve with Nginx ────────────────────────────────────────────────
+FROM nginx:alpine
+
+# Copy the compiled React app from the builder stage into Nginx
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Replace default Nginx configuration with our custom reverse-proxy config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose port 80 for web traffic
+EXPOSE 80
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
