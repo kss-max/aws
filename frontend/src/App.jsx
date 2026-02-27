@@ -1,25 +1,38 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Landing from './pages/Landing';
 import EventList from './pages/EventList';
 import EventDetails from './pages/EventDetails';
 import Register from './pages/Register';
+import AdminLayout from './components/AdminLayout';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 import AdminCreate from './pages/AdminCreate';
 import AdminEdit from './pages/AdminEdit';
 import AdminRegistrations from './pages/AdminRegistrations';
 
-export default function App() {
+function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* User Module */}
-        <Route path="/" element={<EventList />} />
+        {/* Public Routes */}
+        <Route path="/" element={<Landing />} />
+        <Route path="/events" element={<EventList />} />
         <Route path="/events/:id" element={<EventDetails />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Admin Module */}
-        <Route path="/admin/create" element={<AdminCreate />} />
-        <Route path="/admin/edit/:id" element={<AdminEdit />} />
-        <Route path="/admin/registrations" element={<AdminRegistrations />} />
+        {/* Auth Routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+
+        {/* Private Admin Routes */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route path="registrations" element={<AdminRegistrations />} />
+          <Route path="create" element={<AdminCreate />} />
+          <Route path="edit/:id" element={<AdminEdit />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
 }
+
+export default App;

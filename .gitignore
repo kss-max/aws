@@ -1,0 +1,10 @@
+# Agent skills (local only, not for version control)
+agents/
+.agents/
+.agent/
+skills-lock.json
+
+# User temporary media
+*.mp4
+*.zip
+landing-page-image/
