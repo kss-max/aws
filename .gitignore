@@ -5,6 +5,5 @@ agents/
 skills-lock.json
 
 # User temporary media
-*.mp4
 *.zip
 landing-page-image/
