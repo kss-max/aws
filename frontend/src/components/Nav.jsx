@@ -1,16 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function Nav() {
     const navigate = useNavigate();
-    const token = localStorage.getItem('token');
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    const userRole = user.role;
+    const { user, isLoggedIn, isAdmin, logout } = useAuth();
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        localStorage.removeItem('adminToken');
-        localStorage.removeItem('adminUser');
+        logout();
         navigate('/');
     };
 
@@ -18,23 +14,41 @@ export default function Nav() {
         <nav className="nav">
             <Link to="/" className="nav-brand" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 EventSphere
-                {token && user.name && (
+                {isLoggedIn && user?.name && (
                     <span style={{ fontSize: '0.6rem', padding: '0.1rem 0.4rem', border: '1px solid var(--gold)', borderRadius: '2px', color: 'var(--gold)' }}>
-                        {userRole === 'admin' ? user.name.toUpperCase() : user.name.toUpperCase()}
+                        {user.name.toUpperCase()}
                     </span>
                 )}
             </Link>
             <ul className="nav-links">
                 <li><Link to="/events">Events</Link></li>
-                {token ? (
+                <li><Link to="/news">News</Link></li>
+                {isLoggedIn ? (
                     <>
-                        {userRole === 'admin' && <li><Link to="/admin/registrations" style={{ color: 'var(--gold)' }}>Dashboard</Link></li>}
-                        <li><button onClick={handleLogout} style={{ background: 'none', border: 'none', color: 'var(--text-dim)', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit' }}>Logout</button></li>
+                        {isAdmin && (
+                            <li>
+                                <Link to="/admin/registrations" style={{ color: 'var(--gold)' }}>
+                                    Dashboard
+                                </Link>
+                            </li>
+                        )}
+                        <li>
+                            <button
+                                onClick={handleLogout}
+                                style={{ background: 'none', border: 'none', color: 'var(--text-dim)', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit' }}
+                            >
+                                Logout
+                            </button>
+                        </li>
                     </>
                 ) : (
                     <>
                         <li><Link to="/login" style={{ color: 'var(--text-dim)' }}>Log in</Link></li>
-                        <li><Link to="/signup" className="btn btn-primary" style={{ padding: '0.4rem 1rem', fontSize: '0.75rem', marginLeft: '0.5rem' }}>Sign up</Link></li>
+                        <li>
+                            <Link to="/signup" className="btn btn-primary" style={{ padding: '0.4rem 1rem', fontSize: '0.75rem', marginLeft: '0.5rem' }}>
+                                Sign up
+                            </Link>
+                        </li>
                     </>
                 )}
             </ul>
