@@ -1,0 +1,31 @@
+const Registration = require("../Models/Registration");
+const Event = require("../Models/Event");
+
+// POST /api/register
+const registerForEvent = async (req, res) => {
+    try {
+        const { eventId, name, email, phone } = req.body;
+
+        // Basic validation
+        if (!eventId || !name || !email || !phone) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+
+        // Check event exists
+        const event = await Event.findById(eventId);
+        if (!event) return res.status(404).json({ message: "Event not found" });
+
+        // Check already registered
+        const existing = await Registration.findOne({ eventId, email });
+        if (existing) {
+            return res.status(400).json({ message: "Already registered for this event" });
+        }
+
+        const registration = await Registration.create({ eventId, name, email, phone });
+        res.status(201).json({ message: "Registration successful", registration });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+module.exports = { registerForEvent };
