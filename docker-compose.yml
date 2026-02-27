@@ -5,10 +5,6 @@ services:
     container_name: aws_backend
     env_file:
       - ./backend/.env
-    depends_on:
-      - mongo
-    environment:
-      - MONGO_URI=mongodb://mongo:27017/aws_db
     restart: always
 
   frontend:
@@ -16,13 +12,6 @@ services:
     container_name: aws_frontend
     depends_on:
       - backend
-    restart: always
-
-  mongo:
-    image: mongo:latest
-    container_name: aws_mongo
-    volumes:
-      - mongo_data:/data/db
     restart: always
 
   nginx:
@@ -38,8 +27,3 @@ services:
       - frontend
       - backend
     restart: always
-
-volumes:
-  mongo_data:
-
-
