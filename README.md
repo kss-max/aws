@@ -72,7 +72,6 @@ If you'd like to spin up the entire application architecture locally without ins
 ---
 
 ## 🏗️ Production Deployment Architecture
-*For exact details mapping our architecture to grading rubric criteria, please see the included `deployment_architecture.md` file.*
 
 The production branch utilizes a highly-optimized container layout to securely isolate the Node.js backend entirely inside the internal Docker network. Our single internet-facing reverse-proxy (`nginx:alpine`) acts as a secure traffic director—serving static `.js`/`.css` assets via a multi-stage frontend build directly to the client, while transparently passing dynamic API requests (`/api/*`) safely backward to the Express runtime environment.
 
