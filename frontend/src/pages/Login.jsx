@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import API from '../api';
 import Nav from '../components/Nav';
+import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
     const navigate = useNavigate();
+    const { login } = useAuth();
     const [form, setForm] = useState({ email: '', password: '', role: 'user' });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -23,11 +25,9 @@ export default function Login() {
             const res = await API.post(endpoint, { email: form.email, password: form.password });
             // Backend returns: { _id, name, email, role, token }
             const user = res.data;
-            localStorage.setItem('token', user.token);
-            localStorage.setItem('user', JSON.stringify(user));
+            login(user); // saves to localStorage + updates AuthContext
 
             if (user.role === 'admin') {
-                localStorage.setItem('adminToken', user.token); // legacy support for our interceptors
                 navigate('/admin/registrations');
             } else {
                 navigate('/events');
