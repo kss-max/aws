@@ -22,6 +22,7 @@ app.use("/api/register", require("./routes/registrationRoutes"));
 app.use("/api/auth", require("./auth/authRoutes"));
 app.use("/api/admin", require("./routes/adminRoutes"));
 app.use("/api/news", require("./routes/newsRoutes"));
+app.use("/api/announcements", require("./routes/announcementRoutes"));
 
 // Base route
 app.get("/", (req, res) => {

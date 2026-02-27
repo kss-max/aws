@@ -18,6 +18,9 @@ import NewsDetail from './pages/NewsDetail';
 import AdminNewsList from './pages/AdminNewsList';
 import AdminNewsCreate from './pages/AdminNewsCreate';
 
+import Announcements from './pages/Announcements';
+import AdminAnnouncements from './pages/AdminAnnouncements';
+
 function App() {
   return (
     <AuthProvider>
@@ -27,6 +30,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/events" element={<EventList />} />
           <Route path="/events/:id" element={<EventDetails />} />
+          <Route path="/announcements" element={<Announcements />} />
 
           {/* News – Public */}
           <Route path="/news" element={<NewsList />} />
@@ -49,6 +53,7 @@ function App() {
               <Route path="registrations" element={<AdminRegistrations />} />
               <Route path="create" element={<AdminCreate />} />
               <Route path="edit/:id" element={<AdminEdit />} />
+              <Route path="announcements" element={<AdminAnnouncements />} />
 
               {/* News sub-routes rendered inside AdminLayout's <Outlet> */}
               <Route path="news" element={<AdminNewsList />} />

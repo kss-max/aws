@@ -22,33 +22,16 @@ export default function Nav() {
             </Link>
             <ul className="nav-links">
                 <li><Link to="/events">Events</Link></li>
-                <li><Link to="/news">News</Link></li>
+                <li><Link to="/announcements">Announcements</Link></li>
                 {isLoggedIn ? (
                     <>
-                        {isAdmin && (
-                            <li>
-                                <Link to="/admin/registrations" style={{ color: 'var(--gold)' }}>
-                                    Dashboard
-                                </Link>
-                            </li>
-                        )}
-                        <li>
-                            <button
-                                onClick={handleLogout}
-                                style={{ background: 'none', border: 'none', color: 'var(--text-dim)', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit' }}
-                            >
-                                Logout
-                            </button>
-                        </li>
+                        {isAdmin && <li><Link to="/admin/registrations" style={{ color: 'var(--gold)' }}>Dashboard</Link></li>}
+                        <li><button onClick={handleLogout} style={{ background: 'none', border: 'none', color: 'var(--text-dim)', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit' }}>Logout</button></li>
                     </>
                 ) : (
                     <>
                         <li><Link to="/login" style={{ color: 'var(--text-dim)' }}>Log in</Link></li>
-                        <li>
-                            <Link to="/signup" className="btn btn-primary" style={{ padding: '0.4rem 1rem', fontSize: '0.75rem', marginLeft: '0.5rem' }}>
-                                Sign up
-                            </Link>
-                        </li>
+                        <li><Link to="/signup" className="btn btn-primary" style={{ padding: '0.4rem 1rem', fontSize: '0.75rem', marginLeft: '0.5rem' }}>Sign up</Link></li>
                     </>
                 )}
             </ul>
