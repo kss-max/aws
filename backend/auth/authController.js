@@ -6,10 +6,10 @@ const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "7d" });
 };
 
-// POST /api/auth/register  (User)
+// POST /api/auth/register
 const registerUser = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, role } = req.body;
 
         if (!name || !email || !password)
             return res.status(400).json({ message: "All fields are required" });
@@ -19,7 +19,7 @@ const registerUser = async (req, res) => {
             return res.status(400).json({ message: "User already exists" });
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await User.create({ name, email, password: hashedPassword });
+        const user = await User.create({ name, email, password: hashedPassword, role: role || 'user' });
 
         res.status(201).json({
             _id: user._id,
@@ -45,6 +45,7 @@ const loginUser = async (req, res) => {
         if (!user)
             return res.status(401).json({ message: "Invalid email or password" });
 
+        // Block admin from using user login
         if (user.role === "admin")
             return res.status(403).json({ message: "Please use the admin login" });
 
@@ -76,6 +77,7 @@ const loginAdmin = async (req, res) => {
         if (!user)
             return res.status(401).json({ message: "Invalid email or password" });
 
+        // Block non-admins from using admin login
         if (user.role !== "admin")
             return res.status(403).json({ message: "Access denied: Admins only" });
 
@@ -103,6 +105,7 @@ const registerAdmin = async (req, res) => {
         if (!name || !email || !password || !adminSecret)
             return res.status(400).json({ message: "All fields including adminSecret are required" });
 
+        // Verify admin secret key
         if (adminSecret !== process.env.ADMIN_SECRET)
             return res.status(403).json({ message: "Invalid admin secret key" });
 
@@ -111,7 +114,12 @@ const registerAdmin = async (req, res) => {
             return res.status(400).json({ message: "Admin already exists" });
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await User.create({ name, email, password: hashedPassword, role: "admin" });
+        const user = await User.create({
+            name,
+            email,
+            password: hashedPassword,
+            role: "admin",
+        });
 
         res.status(201).json({
             _id: user._id,

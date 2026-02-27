@@ -38,3 +38,4 @@ const getAllRegistrations = async (req, res) => {
 };
 
 module.exports = { registerForEvent, getAllRegistrations };
+
