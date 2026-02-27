@@ -5,7 +5,7 @@ import Nav from '../components/Nav';
 
 export default function Login() {
     const navigate = useNavigate();
-    const [form, setForm] = useState({ email: '', password: '' });
+    const [form, setForm] = useState({ email: '', password: '', role: 'user' });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -19,7 +19,8 @@ export default function Login() {
         setLoading(true);
 
         try {
-            const res = await API.post('/auth/login', form);
+            const endpoint = form.role === 'admin' ? '/auth/admin/login' : '/auth/login';
+            const res = await API.post(endpoint, { email: form.email, password: form.password });
             // Backend returns: { _id, name, email, role, token }
             const user = res.data;
             localStorage.setItem('token', user.token);
@@ -71,6 +72,20 @@ export default function Login() {
                     {error && <div className="alert alert-error" style={{ marginBottom: '1.5rem' }}>{error}</div>}
 
                     <form onSubmit={handleSubmit} noValidate>
+                        <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+                            <label style={{ marginBottom: '0.75rem', display: 'block' }}>I am logging in as...</label>
+                            <div style={{ display: 'flex', gap: '1.5rem', background: 'rgba(255,255,255,0.03)', padding: '0.75rem 1rem', borderRadius: '4px', border: '1px solid var(--border)' }}>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.9rem', color: form.role === 'user' ? 'var(--gold)' : 'var(--text-muted)' }}>
+                                    <input type="radio" name="role" value="user" checked={form.role === 'user'} onChange={(e) => setForm({ ...form, role: e.target.value })} />
+                                    Student
+                                </label>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.9rem', color: form.role === 'admin' ? 'var(--gold)' : 'var(--text-muted)' }}>
+                                    <input type="radio" name="role" value="admin" checked={form.role === 'admin'} onChange={(e) => setForm({ ...form, role: e.target.value })} />
+                                    Organizer
+                                </label>
+                            </div>
+                        </div>
+
                         <div className="form-group">
                             <label htmlFor="email">Email</label>
                             <input

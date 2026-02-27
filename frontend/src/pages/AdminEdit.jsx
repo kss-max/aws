@@ -5,7 +5,7 @@ import API from '../api';
 export default function AdminEdit() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [form, setForm] = useState({ title: '', description: '', date: '', location: '', category: '', capacity: '' });
+    const [form, setForm] = useState({ title: '', description: '', date: '', venue: '', location: '', category: '', capacity: '' });
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -19,6 +19,7 @@ export default function AdminEdit() {
                     title: e.title || '',
                     description: e.description || '',
                     date: e.date ? e.date.slice(0, 16) : '',
+                    venue: e.venue || '',
                     location: e.location || '',
                     category: e.category || '',
                     capacity: e.capacity || '',
@@ -32,7 +33,7 @@ export default function AdminEdit() {
         const e = {};
         if (!form.title.trim()) e.title = 'Title is required';
         if (!form.date) e.date = 'Date is required';
-        if (!form.location.trim()) e.location = 'Location is required';
+        if (!form.venue.trim()) e.venue = 'Venue is required';
         return e;
     };
 
@@ -51,6 +52,18 @@ export default function AdminEdit() {
     };
 
     const set = (field) => (e) => setForm({ ...form, [field]: e.target.value });
+
+    const handleDelete = async () => {
+        if (!window.confirm('Are you sure you want to delete this event? This action cannot be undone.')) return;
+        setSaving(true); setServerErr('');
+        try {
+            await API.delete(`/events/${id}`);
+            navigate('/admin/registrations');
+        } catch (err) {
+            setServerErr(err.response?.data?.message || 'Failed to delete event.');
+            setSaving(false);
+        }
+    };
 
     if (loading) return <><div className="loading">Loading event</div></>;
 
@@ -90,31 +103,41 @@ export default function AdminEdit() {
 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
                     <div className="form-group">
-                        <label htmlFor="location">Location *</label>
-                        <input id="location" type="text" value={form.location} onChange={set('location')} className={errors.location ? 'error' : ''} />
-                        {errors.location && <span className="error-msg">{errors.location}</span>}
+                        <label htmlFor="venue">Venue (Building/Campus) *</label>
+                        <input id="venue" type="text" value={form.venue} onChange={set('venue')} className={errors.venue ? 'error' : ''} />
+                        {errors.venue && <span className="error-msg">{errors.venue}</span>}
                     </div>
                     <div className="form-group">
-                        <label htmlFor="category">Category</label>
-                        <select id="category" value={form.category} onChange={set('category')}>
-                            <option value="">Select…</option>
-                            <option>Workshop</option>
-                            <option>Seminar</option>
-                            <option>Cultural</option>
-                            <option>Sports</option>
-                            <option>Tech</option>
-                            <option>Other</option>
-                        </select>
+                        <label htmlFor="location">Room / Exact Location</label>
+                        <input id="location" type="text" value={form.location} onChange={set('location')} />
                     </div>
+                </div>
+
+                <div className="form-group" style={{ marginTop: '1.25rem' }}>
+                    <label htmlFor="category">Category</label>
+                    <select id="category" value={form.category} onChange={set('category')}>
+                        <option value="">Select…</option>
+                        <option>Workshop</option>
+                        <option>Seminar</option>
+                        <option>Cultural</option>
+                        <option>Sports</option>
+                        <option>Tech</option>
+                        <option>Other</option>
+                    </select>
                 </div>
 
                 <hr className="divider" />
 
-                <div style={{ display: 'flex', gap: '1rem' }}>
-                    <button type="submit" className="btn btn-primary" disabled={saving}>
-                        {saving ? 'Saving…' : 'Save Changes'}
+                <div style={{ display: 'flex', gap: '1rem', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', gap: '1rem' }}>
+                        <button type="submit" className="btn btn-primary" disabled={saving}>
+                            {saving ? 'Saving…' : 'Save Changes'}
+                        </button>
+                        <Link to="/admin/registrations" className="btn btn-outline">Cancel</Link>
+                    </div>
+                    <button type="button" onClick={handleDelete} className="btn btn-outline" style={{ color: '#ff4d4d', borderColor: 'rgba(255, 77, 77, 0.2)' }} disabled={saving}>
+                        Delete Event
                     </button>
-                    <Link to="/" className="btn btn-outline">Cancel</Link>
                 </div>
             </form>
         </main>

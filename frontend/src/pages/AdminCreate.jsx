@@ -4,7 +4,7 @@ import API from '../api';
 
 export default function AdminCreate() {
     const navigate = useNavigate();
-    const [form, setForm] = useState({ title: '', description: '', date: '', location: '', category: '', capacity: '' });
+    const [form, setForm] = useState({ title: '', description: '', date: '', venue: '', location: '', category: '', capacity: '' });
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const [serverErr, setServerErr] = useState('');
@@ -13,7 +13,7 @@ export default function AdminCreate() {
         const e = {};
         if (!form.title.trim()) e.title = 'Title is required';
         if (!form.date) e.date = 'Date is required';
-        if (!form.location.trim()) e.location = 'Location is required';
+        if (!form.venue.trim()) e.venue = 'Venue is required';
         return e;
     };
 
@@ -69,22 +69,27 @@ export default function AdminCreate() {
 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
                     <div className="form-group">
-                        <label htmlFor="location">Location *</label>
-                        <input id="location" type="text" placeholder="Auditorium A" value={form.location} onChange={set('location')} className={errors.location ? 'error' : ''} />
-                        {errors.location && <span className="error-msg">{errors.location}</span>}
+                        <label htmlFor="venue">Venue (Building/Campus) *</label>
+                        <input id="venue" type="text" placeholder="Main Campus" value={form.venue} onChange={set('venue')} className={errors.venue ? 'error' : ''} />
+                        {errors.venue && <span className="error-msg">{errors.venue}</span>}
                     </div>
                     <div className="form-group">
-                        <label htmlFor="category">Category</label>
-                        <select id="category" value={form.category} onChange={set('category')}>
-                            <option value="">Select…</option>
-                            <option>Workshop</option>
-                            <option>Seminar</option>
-                            <option>Cultural</option>
-                            <option>Sports</option>
-                            <option>Tech</option>
-                            <option>Other</option>
-                        </select>
+                        <label htmlFor="location">Room / Exact Location</label>
+                        <input id="location" type="text" placeholder="Auditorium A" value={form.location} onChange={set('location')} />
                     </div>
+                </div>
+
+                <div className="form-group" style={{ marginTop: '1.25rem' }}>
+                    <label htmlFor="category">Category</label>
+                    <select id="category" value={form.category} onChange={set('category')}>
+                        <option value="">Select…</option>
+                        <option>Workshop</option>
+                        <option>Seminar</option>
+                        <option>Cultural</option>
+                        <option>Sports</option>
+                        <option>Tech</option>
+                        <option>Other</option>
+                    </select>
                 </div>
 
                 <hr className="divider" />
@@ -96,6 +101,6 @@ export default function AdminCreate() {
                     <Link to="/admin/registrations" className="btn btn-outline">Cancel</Link>
                 </div>
             </form>
-        </main>
+        </main >
     );
 }

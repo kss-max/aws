@@ -72,8 +72,8 @@ export default function AdminRegistrations() {
                                     <td style={{ color: 'var(--text-muted)' }}>{reg.email}</td>
                                     <td>
                                         {reg.eventId ? (
-                                            <Link to={`/events/${reg.eventId}`} style={{ color: 'var(--gold)', fontSize: '0.78rem' }}>
-                                                {reg.eventTitle || reg.eventId}
+                                            <Link to={`/events/${reg.eventId._id || reg.eventId}`} style={{ color: 'var(--gold)', fontSize: '0.78rem' }}>
+                                                {reg.eventId.title || 'View Event'}
                                             </Link>
                                         ) : '—'}
                                     </td>

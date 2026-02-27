@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 export default function Nav() {
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
-    const userRole = JSON.parse(localStorage.getItem('user') || '{}').role;
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const userRole = user.role;
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -15,7 +16,14 @@ export default function Nav() {
 
     return (
         <nav className="nav">
-            <Link to="/" className="nav-brand">EventSphere</Link>
+            <Link to="/" className="nav-brand" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                EventSphere
+                {token && user.name && (
+                    <span style={{ fontSize: '0.6rem', padding: '0.1rem 0.4rem', border: '1px solid var(--gold)', borderRadius: '2px', color: 'var(--gold)' }}>
+                        {userRole === 'admin' ? user.name.toUpperCase() : user.name.toUpperCase()}
+                    </span>
+                )}
+            </Link>
             <ul className="nav-links">
                 <li><Link to="/events">Events</Link></li>
                 {token ? (
