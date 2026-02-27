@@ -21,7 +21,7 @@ export default function EventList() {
             <main className="page">
                 <header className="page-header">
                     <p className="eyebrow">Campus Events</p>
-                    <h1>EventSphere</h1>
+                    <h1>CampusPulse</h1>
                     <div className="gold-rule" />
                     <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', maxWidth: 500 }}>
                         Browse and register for upcoming campus events, workshops, and seminars.

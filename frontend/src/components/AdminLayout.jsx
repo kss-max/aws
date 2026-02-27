@@ -15,7 +15,7 @@ export default function AdminLayout() {
             {/* Admin specific Navigation */}
             <nav className="nav" style={{ borderBottomColor: 'var(--gold-dim)' }}>
                 <Link to="/admin" className="nav-brand" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    EventSphere <span style={{ fontSize: '0.6rem', padding: '0.1rem 0.4rem', border: '1px solid var(--gold)', borderRadius: '2px', color: 'var(--gold)' }}>{user?.name ? user.name.toUpperCase() : 'ADMIN'}</span>
+                    CampusPulse <span style={{ fontSize: '0.6rem', padding: '0.1rem 0.4rem', border: '1px solid var(--gold)', borderRadius: '2px', color: 'var(--gold)' }}>{user?.name ? user.name.toUpperCase() : 'ADMIN'}</span>
                 </Link>
                 <ul className="nav-links">
                     <li><Link to="/admin/registrations">Dashboard</Link></li>

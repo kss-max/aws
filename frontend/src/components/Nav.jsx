@@ -13,7 +13,7 @@ export default function Nav() {
     return (
         <nav className="nav">
             <Link to="/" className="nav-brand" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                EventSphere
+                CampusPulse
                 {isLoggedIn && user?.name && (
                     <span style={{ fontSize: '0.6rem', padding: '0.1rem 0.4rem', border: '1px solid var(--gold)', borderRadius: '2px', color: 'var(--gold)' }}>
                         {user.name.toUpperCase()}

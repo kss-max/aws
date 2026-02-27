@@ -102,7 +102,7 @@ export default function Landing() {
                         animation: 'fadeUp 0.55s ease both',
                         animationDelay: '0.18s',
                     }}>
-                        EventSphere is a centralized registration platform for campus events —
+                        CampusPulse is a centralized registration platform for campus events —
                         built for students, managed by organizers.
                     </p>
 
@@ -257,7 +257,7 @@ export default function Landing() {
                 </h2>
                 <div className="gold-rule" style={{ margin: '1rem auto 1.5rem' }} />
                 <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '2.5rem', maxWidth: 400, margin: '0 auto 2rem' }}>
-                    Join hundreds of students already using EventSphere to stay engaged on campus.
+                    Join hundreds of students already using CampusPulse to stay engaged on campus.
                 </p>
                 <Link to="/events" className="btn btn-primary" style={{ fontSize: '0.8rem', padding: '0.9rem 2.5rem' }}>
                     Explore Events →
@@ -279,7 +279,7 @@ export default function Landing() {
                 zIndex: 1,
             }}>
                 <span style={{ fontFamily: 'Playfair Display, serif', color: 'var(--gold)', fontSize: '0.9rem' }}>
-                    EventSphere
+                    CampusPulse
                 </span>
                 <span style={{ color: 'var(--text-dim)', fontSize: '0.68rem', letterSpacing: '0.08em' }}>
                     Campus Event Registration Platform — Production Deployment Project
