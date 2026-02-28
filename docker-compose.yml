@@ -1,14 +1,14 @@
 version: '3.8'
 services:
   backend:
-    build: ./backend
+    image: nishitsk/eventsphere-backend:latest
     container_name: aws_backend
     env_file:
       - ./backend/.env
     restart: always
 
   frontend:
-    build: ./frontend
+    image: nishitsk/eventsphere-frontend:latest
     container_name: aws_frontend
     ports:
       - '80:80'
