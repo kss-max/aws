@@ -123,19 +123,7 @@ export default function Landing() {
                         </Link>
                     </div>
 
-                    <div style={{
-                        marginTop: '3rem',
-                        padding: '1rem',
-                        backgroundColor: 'rgba(0, 0, 0, 0.4)',
-                        borderRadius: '8px',
-                        border: '1px solid var(--border-color)',
-                        animation: 'fadeUp 0.55s ease both',
-                        animationDelay: '0.3s',
-                    }}>
-                        <p style={{ margin: 0, fontSize: '0.9rem', color: '#4ADE80' }}>
-                            🚀 <strong>Success!</strong> Automated CI/CD Deployment to AWS EC2 via GitHub Actions is live and working perfectly!
-                        </p>
-                    </div>
+
                 </div>
 
                 {/* Scroll hint */}
