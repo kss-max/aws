@@ -2,7 +2,7 @@
 
 ![EventSphere Banner](https://img.shields.io/badge/EventSphere-Production_Deployment-blue?style=for-the-badge)
 
-### 🔴 [Live Demo: http://13.232.61.24/][(http://43.205.239.145/)]
+### 🔴 [Live Demo:http://43.205.239.145/]
 *(Note: Because this is deployed on an AWS EC2 instance, the IP address may change if the instance is stopped/started).*
 
 **EventSphere** is a centralized, full-stack event registration platform designed specifically for college institutions. It allows students to browse and register for campus events, while providing administrators and event organizers a comprehensive dashboard to securely create, manage, and monitor event registrations.
